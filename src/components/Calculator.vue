@@ -3,7 +3,7 @@
   <div class="calculator">
     <div class="container">
       <div class="calculator__content">
-        <div class="calculator__display">
+        <div class="calculator__display" :style="{ fontSize: displayFontSize + 'px' }">
           {{ current || "0" }}
         </div>
         <div class="calculator__btns">
@@ -40,11 +40,13 @@ export default {
       current: '',
       operator: null,
       operatorClicked: false,
+      displayFontSize: 62,
     };
   },
   methods: {
     btnClear() {
       this.current = '';
+      this.checkFontSize();
     },
     btnSign() {
       this.current = this.current.charAt(0) === '-' ? this.current.slice(1) : `-${this.current}`;
@@ -57,7 +59,10 @@ export default {
         this.current = '';
         this.operatorClicked = false;
       }
-      this.current = `${this.current}${number}`;
+      if (this.current.length < 32) {
+        this.current = `${this.current}${number}`;
+      }
+      this.checkFontSize();
     },
     btnDot() {
       if (this.current.indexOf('.') === -1) {
@@ -90,6 +95,27 @@ export default {
         parseFloat(this.previous),
       )}`;
       this.previous = null;
+      this.checkFontSize();
+    },
+    checkFontSize() {
+      if (this.current.length <= 11) {
+        this.displayFontSize = 62;
+      }
+      if (this.current.length > 11) {
+        this.displayFontSize = 42;
+      }
+      if (this.current.length > 16) {
+        this.displayFontSize = 35;
+      }
+      if (this.current.length > 20) {
+        this.displayFontSize = 30;
+      }
+      if (this.current.length > 23) {
+        this.displayFontSize = 25;
+      }
+      if (this.current.length > 27) {
+        this.displayFontSize = 21;
+      }
     },
   },
 };
@@ -108,21 +134,21 @@ export default {
     display: flex;
     flex-direction: column;
     width: 428px;
-    height: 926px;
+    height: 760px;
     background: #151515;
     border: 10px solid rgba(51, 51, 51, 0.6);
     box-shadow: 0px 4px 85px 42px rgba(0, 0, 0, 0.2);
     border-radius: 30px;
   }
   &__display {
-    height: 377px;
+    height: 200px;
     font-weight: 400;
-    font-size: 62px;
-    line-height: 136px;
+    // line-height: 136px;
     display: flex;
     justify-content: right;
     align-items: flex-end;
-    margin: 0 21px 33px 0;
+    margin: 25px 21px;
+    overflow: hidden;
   }
   &__btns {
     display: flex;
