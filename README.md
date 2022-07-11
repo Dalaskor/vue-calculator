@@ -1,5 +1,9 @@
 # vue-calculator
 
+A simple calculator on Vue.JS
+
+DEMO: https://dalaskor.github.io/vue-calculator/
+
 ## Project setup
 ```
 npm install
